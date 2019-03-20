@@ -68,19 +68,19 @@ def bf_comp(script):
 
 if __name__ == '__main__':
     #s = bf_comp(">>,>,<[>[->+>+<<]>[-<+>]<<-]>>>.")
-    with open("scripts/hannoi/hannoi.bf","r") as file:
+    with open("scripts/hello_world/hello_world.bf","r") as file:
         s = bf_comp(file.read())
 
-    with open("scripts/hannoi/hannoi.core","w") as file:
+    with open("scripts/hello_world/hello_world.core","w") as file:
         file.write(s)
     import sasm,core_lang
 
     s = core_lang.compile_core(s)
-    with open("scripts/hannoi/hannoi.asm","w") as file:
+    with open("scripts/hello_world/hello_world.asm","w") as file:
         file.write(s)
     s = sasm.assemble(s)
     a = ""
-    with open("scripts/hannoi/hannoi.s","w") as file:
+    with open("scripts/hello_world/hello_world.s","w") as file:
         c = 1
         for x in s:
             a+=str(x)+" "
