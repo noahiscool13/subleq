@@ -1,0 +1,18 @@
+zero:0 0 start
+one:1 a:0 b:0
+ta:0 tb:0 tc:0
+start:-1 a ?
+-1 b ?
+
+check_b:b tb ?
+tb tc print_ta
+tb tb ?
+tc tc ?
+sub_one_b:one b ?
+add_a_to_ta:a tb ?
+tb ta ?
+tb tb check_b
+
+print_ta:ta -1 ?
+0 0 -1
+
