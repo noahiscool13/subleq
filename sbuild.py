@@ -8,40 +8,52 @@ import read_file
 import os
 
 
-def build(file,from_file = True):
-    print("reading file")
-    if from_file:
-        with open(file,"r") as f:
-            data = f.read()
-        _,file_type = os.path.splitext(file)
-        if file_type=="bf":
-            file = bf_to_core.bf_comp(file)
-        asm = read_file.read_subleq(file)
-    else:
-        asm = file
-    print("assembling")
-    subleq = sasm.assemble(asm)
-    #subleq = asm
-    print(subleq)
-    print("running\nV v V")
-    secex.run(subleq,mode="ascii")
+class Build:
+    def __init__(self, file, run=True, save=True, mode="ascii"):
+        self.file = file
+        self.run = run
+        self.save = save
+        self.mode = mode
 
-def build_run(file,from_file = True):
-    print("reading file")
-    if from_file:
-        asm = read_file.read_subleq(file)
-    else:
-        asm = file
-    print("assembling")
-    subleq = sasm.assemble(asm)
-    #subleq = asm
-    print(subleq)
-    print("running\nV v V")
-    t = time()
-    secex.run(subleq,mode="ascii")
-    t = time()-t
-    print("This took: "+str(t)+" seconds\nThats "+str(t//60)+" min "+str(t-(t//60*60))+" sec")
+    def build(self):
+        print("reading file")
+        _, file_type = os.path.splitext(self.file)
+        with open(self.file, "r") as f:
+            self.file = f.read()
+        if file_type == ".bf":
+            self.build_bf()
+        if file_type == ".core":
+            self.build_core()
+        if file_type == ".asm":
+            self.build_asm()
+        if file_type == ".s":
+            self.build_s()
+
+    def build_s(self):
+        if self.run:
+            print("Running script:")
+            secex.run(self.file, mode=self.mode)
+
+    def build_asm(self):
+        print("Building asm -> subleq:")
+        self.file = sasm.assemble(self.file)
+        self.build_s()
+
+    def build_core(self):
+        print("Building core -> asm:")
+        self.file = core_lang.compile_core(self.file)
+        self.build_asm()
+
+    def build_bf(self):
+        print("Building bf -> core:")
+        self.file = bf_to_core.bf_comp(self.file)
+        self.build_core()
+
+
+def build(file, run=True, save=True, mode="ascii"):
+    builder = Build(file, run, save, mode)
+    builder.build()
 
 
 if __name__ == '__main__':
-    build_run("scripts/hannoi/hannoi.s")
+    build("scripts/hannoi/hannoi.bf")
