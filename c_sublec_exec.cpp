@@ -8,44 +8,39 @@
 #include <vector>
 
 
-
-int main(){
+int main(int argc, const char *argv[]) {
     int value;
     std::vector<int> script_vec;
 
-    FILE *file = fopen("scripts/hannoi/hannoi.s","r");
+    FILE *file = fopen(argv[1], "r");
 
-    if (file== nullptr)
-    {
-        std::cout<<"no such file.\n";
+    if (file == NULL) {
+        std::cout << "no such file.\n";
         return 0;
     }
 
-    while(fscanf(file, "%d", &value) == 1) // While file can be read in ( You can increase numbers in text
+    while (fscanf(file, "%d", &value) == 1) // While file can be read in ( You can increase numbers in text
     {
         script_vec.push_back(value);
     }
 
-    int* memory = &script_vec[0];
+    int *memory = &script_vec[0];
 
     int pc = 0;
 
-    while (pc>=0) {
+    while (pc >= 0) {
         if (memory[pc] == -1) {
             std::cin >> memory[memory[pc + 1]];
-        }
-        else if (memory[pc + 1] == -1)
-        {
+        } else if (memory[pc + 1] == -1) {
             std::cout << (char) memory[memory[pc]];
-        }
-        else {
+        } else {
             memory[memory[pc + 1]] -= memory[memory[pc]];
             if (memory[memory[pc + 1]] <= 0) {
                 pc = memory[pc + 2];
                 continue;
             }
         }
-        pc+=3;
+        pc += 3;
     }
 
     return 0;
