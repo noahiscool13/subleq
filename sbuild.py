@@ -7,6 +7,8 @@ import bf_to_core
 import read_file
 import os
 
+from immediate_core import compile_immediate
+
 
 class Build:
     def __init__(self, file, run=True, save=True, mode="ascii"):
@@ -14,6 +16,7 @@ class Build:
         self.run = run
         self.save = save
         self.mode = mode
+        self.run_c = True
 
     def build(self):
         print("reading file")
@@ -32,7 +35,12 @@ class Build:
     def build_s(self):
         if self.run:
             print("Running script:")
-            secex.run(self.file, mode=self.mode)
+            if self.run_c:
+                with open("temp_file.s","w") as tmp:
+                    tmp.write(" ".join([str(x) for x in self.file]))
+                os.system("./a.out temp_file.s")
+            else:
+                secex.run(self.file, mode=self.mode)
 
     def build_asm(self):
         print("Building asm -> subleq:")
@@ -44,10 +52,17 @@ class Build:
         self.file = core_lang.compile_core(self.file)
         self.build_asm()
 
+    def build_immediate(self):
+        print("Building immediate -> core")
+        self.file = compile_immediate(self.file)
+        self.build_core()
+
     def build_bf(self):
         print("Building bf -> core:")
         self.file = bf_to_core.bf_comp(self.file)
         self.build_core()
+
+
 
 
 def build(file, run=True, save=True, mode="ascii"):
@@ -56,4 +71,4 @@ def build(file, run=True, save=True, mode="ascii"):
 
 
 if __name__ == '__main__':
-    build("scripts/hannoi/hannoi.bf")
+    build("scripts/hello_world/hello_world.bf")
