@@ -10,6 +10,7 @@
 
 int main(int argc, const char *argv[]) {
     int value;
+    char buf;
     std::vector<int> script_vec;
 
     FILE *file = fopen(argv[1], "r");
@@ -30,7 +31,8 @@ int main(int argc, const char *argv[]) {
 
     while (pc >= 0) {
         if (memory[pc] == -1) {
-            std::cin >> memory[memory[pc + 1]];
+            std::cin >> buf;
+            memory[memory[pc + 1]] = (int) buf;
         } else if (memory[pc + 1] == -1) {
             std::cout << (char) memory[memory[pc]];
         } else {
