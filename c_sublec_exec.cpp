@@ -7,11 +7,14 @@
 #include <algorithm>
 #include <vector>
 #include <stdio.h>
+#include <string>
+
 
 
 int main(int argc, const char *argv[]) {
     int value;
-    char buf;
+    std::string buf;
+    unsigned int buf_pos = 0;
     std::vector<int> script_vec;
 
     FILE *file = fopen(argv[1], "r");
@@ -32,10 +35,11 @@ int main(int argc, const char *argv[]) {
 
     while (pc >= 0) {
         if (memory[pc] == -1) {
-            char buf;
-            fgets(&buf, 1, stdin);
-            //std::cin >> buf;
-            memory[memory[pc + 1]] = (int) buf;
+            if (buf.length() == buf_pos) {
+                std::getline(std::cin, buf);
+                buf_pos = 0;
+            }
+            memory[memory[pc + 1]] = (int) buf.at(buf_pos++);
         } else if (memory[pc + 1] == -1) {
             std::cout << (char) memory[memory[pc]];
         } else {

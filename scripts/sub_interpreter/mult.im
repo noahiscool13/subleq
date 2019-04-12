@@ -1,0 +1,10 @@
+alloc_ds a
+alloc_ds b
+alloc_ds res
+inp a
+inp b
+while a
+    add b res
+    sub 1 a
+end
+out res

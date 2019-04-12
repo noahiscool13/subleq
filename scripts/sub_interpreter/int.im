@@ -1,0 +1,60 @@
+alloc_ar script 100
+alloc_ds bool 1
+alloc_ds in
+alloc_ds pointer 0
+alloc_ds tmp 0
+alloc_ds ten 10
+alloc_ds mul_res 0
+alloc_ds c_zero 48
+alloc_ds prog_len 0
+
+while bool
+    inp in
+    eq in 33 bool
+    if bool
+        cpy 0 bool
+    else
+        eq in 32 bool
+        if bool
+            add 1 pointer
+        else
+            sub c_zero in
+            get script pointer tmp
+            cpy 10 ten
+            clr mul_res
+            while ten
+                sub 1 ten
+                add tmp mul_res
+            end
+            add in mul_res
+            set script pointer mul_res
+            cpy 1 bool
+        end
+    end
+end
+
+cpy pointer prog_len
+
+cpy 0 pointer
+
+eq pointer prog_len bool
+
+if bool
+    cpy 0 bool
+else
+    cpy 1 bool
+end
+
+while bool
+   get script pointer tmp
+   out tmp
+   add 1 pointer
+
+   eq pointer prog_len bool
+
+   if bool
+        cpy 0 bool
+    else
+        cpy 1 bool
+    end
+end

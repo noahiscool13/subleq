@@ -1,5 +1,7 @@
 from time import time
 
+import bf_to_obf
+import obf_to_core
 import sasm
 import secex
 import core_lang
@@ -25,6 +27,8 @@ class Build:
             self.file = f.read()
         if file_type == ".bf":
             self.build_bf()
+        if file_type == ".im":
+            self.build_immediate()
         if file_type == ".core":
             self.build_core()
         if file_type == ".asm":
@@ -57,10 +61,15 @@ class Build:
         self.file = compile_immediate(self.file)
         self.build_core()
 
+    def build_obf(self):
+        print("Building obf -> immediate")
+        self.file = obf_to_core.bf_comp(self.file)
+        self.build_immediate()
+
     def build_bf(self):
-        print("Building bf -> core:")
-        self.file = bf_to_core.bf_comp(self.file)
-        self.build_core()
+        print("Building bf -> obf:")
+        self.file = bf_to_obf.obf_comp(self.file)
+        self.build_obf()
 
 
 
@@ -71,4 +80,5 @@ def build(file, run=True, save=True, mode="ascii"):
 
 
 if __name__ == '__main__':
-    build("scripts/hello_world/hello_world.bf")
+    build("scripts/sub_interpreter/int.im")
+    #build("scripts/self_interpreter/self_interpreter.bf")

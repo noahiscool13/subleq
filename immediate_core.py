@@ -8,13 +8,14 @@ class Immediate:
         self.script = ""
 
     def register(self, value):
+        val_pos = str(value).replace("-","min_")
         if value not in self.ims:
             self.ims.add(value)
-            self.header += "alloc_ds immediate_val_" + str(value) + " " + str(value) + "\n"
-        return "immediate_val_" + str(value)
+            self.header += "alloc_ds immediate_val_" + val_pos + " " + str(value) + "\n"
+        return "immediate_val_" + val_pos
 
     def replace_if_int(self, token):
-        if token.isdigit():
+        if token.lstrip("-").isdigit():
             return self.register(int(token))
         return token
 
