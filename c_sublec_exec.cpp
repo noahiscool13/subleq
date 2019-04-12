@@ -31,7 +31,9 @@ int main(int argc, const char *argv[]) {
 
     while (pc >= 0) {
         if (memory[pc] == -1) {
-            std::cin >> buf;
+            char buf;
+            fgets(&buf, 1, stdin);
+            //std::cin >> buf;
             memory[memory[pc + 1]] = (int) buf;
         } else if (memory[pc + 1] == -1) {
             std::cout << (char) memory[memory[pc]];
