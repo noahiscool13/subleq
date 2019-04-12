@@ -6,6 +6,7 @@
 #include <fstream>
 #include <algorithm>
 #include <vector>
+#include <stdio.h>
 
 
 int main(int argc, const char *argv[]) {
